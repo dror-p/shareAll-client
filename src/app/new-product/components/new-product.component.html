@@ -1,0 +1,153 @@
+<h1 class="title">הוספת מוצר ל{{title}}</h1>
+
+<h5 *ngIf="!isLoggedIn" style="text-align: center;"> * שים לב שצריך להתחבר כדי לפרסם מוצר חדש <a routerLink='/login'> התחבר </a></h5>
+
+<div class="new-product-form-wrapper">
+<form [formGroup]="newProduct" (ngSubmit)="onSubmit()" class="new-product-form">
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+  <mat-form-field class="two-in-line-field" appearance="outline" *ngIf="showField('name')" (focusout)="calcPayment()">
+    <mat-label>שם המוצר</mat-label>
+    <input matInput formControlName="name" placeholder="למשל: מגרפה">
+  </mat-form-field>
+
+  <mat-form-field class="two-in-line-field" appearance="outline" *ngIf="showField('category')">
+    <mat-label>קטגוריה</mat-label>
+    <mat-select formControlName="category">
+      <mat-option value="רכבים">רכבים</mat-option>
+      <mat-option value="מוצרי בישול ואפייה">מוצרי בישול ואפייה</mat-option>
+      <mat-option value="מחנאות">מחנאות</mat-option>
+      <mat-option value="כלי עבודה">כלי עבודה</mat-option>
+      <mat-option value="גינון">גינון</mat-option>
+      <mat-option value="ספורט">ספורט</mat-option>
+      <mat-option value="ביגוד ואופנה">ביגוד ואופנה</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div fxLayout="row" fxLayoutAlign="space-between center" *ngIf="showField('area')">
+  <mat-form-field class="two-in-line-field" appearance="outline">
+    <mat-label>אזור</mat-label>
+    <mat-select formControlName="area">
+      <mat-option value="צפון">צפון</mat-option>
+      <mat-option value="דרום">דרום</mat-option>
+      <mat-option value="שרון">שרון</mat-option>
+      <mat-option value="מרכז">מרכז</mat-option>
+      <mat-option value="ירושלים">ירושלים</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="two-in-line-field" appearance="outline" *ngIf="showField('city')">
+    <mat-label>עיר</mat-label>
+    <mat-select formControlName="city">
+      <mat-option value="תל אביב">תל אביב</mat-option>
+      <mat-option value="נתניה">נתניה</mat-option>
+      <mat-option value="ירושלים">ירושלים</mat-option>
+      <mat-option value="חיפה">חיפה</mat-option>
+      <mat-option value="דימונה">דימונה</mat-option>
+      <mat-option value="פתח תקווה">פתח תקווה</mat-option>
+      <mat-option value="קרית אונו">קרית אונו</mat-option>
+      <mat-option value="שוהם">שוהם</mat-option>
+      <mat-option value="גני תקוה">גני תקוה</mat-option>
+      <mat-option value="אילת">אילת</mat-option>
+      <mat-option value="באר שבע">באר שבע</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+
+<div fxLayout="row" fxLayoutAlign="space-between center" *ngIf="showField('max_number_of_buyers')">
+  <mat-form-field class="two-in-line-field" appearance="outline">
+    <mat-label>מספר מקסימלי של קונים</mat-label>
+    <input matInput formControlName="max_number_of_buyers" type="number">
+  </mat-form-field>
+</div>
+
+<h4 *ngIf="showField('price_to') || showField('price_from')"><b><u>טווח מחירים</u></b></h4>
+<div fxLayout="row" fxLayoutAlign="space-between center" *ngIf="showField('price_from')">
+  <mat-form-field class="two-in-line-field" appearance="outline">
+    <mat-label>מ-</mat-label>
+    <input matInput formControlName="price_from">
+  </mat-form-field>
+
+  <mat-form-field class="two-in-line-field" appearance="outline" *ngIf="showField('price_to')">
+    <mat-label>עד</mat-label>
+    <input matInput formControlName="price_to">
+  </mat-form-field>
+</div>
+
+<div fxLayout="row" fxLayoutAlign="space-between center" *ngIf="showField('description')">
+  <mat-form-field class="one-in-line-field">
+    <mat-label>תיאור המוצר</mat-label>
+    <textarea matInput formControlName="description"></textarea>
+  </mat-form-field>
+</div>
+
+  <h4></h4>
+
+<div fxLayout="row" fxLayoutAlign="space-between center" *ngIf="showField('tagsControl')">
+  <mat-form-field class="one-in-line-field">
+    <mat-label>תיוגים</mat-label>
+    <mat-chip-list #chipList aria-label="Fruit selection">
+      <mat-chip
+        *ngFor="let tag of tags"
+        [selectable]="selectable"
+        [removable]="removable"
+        (removed)="remove(tag)">
+        {{tag}}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <input
+        placeholder="הוספת תיוג..."
+        #tagInput
+        formControlName="tagsControl"
+        [matChipInputFor]="chipList"
+        (matChipInputTokenEnd)="addTag($event)">
+    </mat-chip-list>
+  </mat-form-field>
+</div>
+  <h4></h4>
+
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <mat-form-field class="two-in-line-field" appearance="outline" *ngIf="showField('hourlyPayment')">
+      <mat-label>מחיר שעתי</mat-label>
+      <input matInput formControlName="hourlyPayment">
+
+    </mat-form-field>
+
+    <mat-form-field class="two-in-line-field" appearance="outline" *ngIf="showField('dailyPayment')">
+      <mat-label>מחיר יומי</mat-label>
+      <input matInput formControlName="dailyPayment">
+    </mat-form-field>
+
+
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <div *ngIf="showField('hourlyPayment') && calcHourlyPrice" class="two-in-line-field">
+      <mat-label style="font-size: 12px">המחיר המומלץ שלנו: </mat-label>
+      <mat-label style="font-size: 14px">{{calcHourlyPrice}} ₪ </mat-label>
+      <button mat-raised-button class="inner-button" type="button"
+              (click)="useHourlyPrice()" style="margin-top: 10px;">השתמש במחיר</button>
+    </div>
+    <div *ngIf="showField('dailyPayment') && calcDailyPrice" class="two-in-line-field">
+      <mat-label style="font-size: 12px">המחיר המומלץ שלנו: </mat-label>
+      <span style="font-size: 14px">{{calcDailyPrice}} ₪ </span>
+      <button mat-raised-button class="inner-button" type="button"
+              (click)="useDailyPrice()" style="margin-top: 10px;">השתמש במחיר</button>
+    </div>
+  </div>
+
+<br><br>
+
+  <input type="file" (change)="addFile($event)" multiple>
+  <img *ngFor="let photo of ImageBaseData" src="{{photo}}">
+
+  <br><br>
+
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <button mat-raised-button class="inner-button" type="submit">פרסם</button>
+  </div>
+
+  </form>
+</div>
+

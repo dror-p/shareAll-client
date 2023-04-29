@@ -1,0 +1,31 @@
+<div class="signin-form-wrapper">
+    <form [formGroup]="signin" (ngSubmit)="onSubmit()" class="login=-form">
+        <h2 class="title">הרשמה</h2>
+        <h3 class="subtitle">הזן את הפרטים כדי להרשם</h3>
+        <mat-form-field appearance="outline" >
+            <mat-label>כתובת מייל</mat-label >
+            <input matInput placeholder="your@mail.com" formControlName="email">
+        </mat-form-field>
+        <mat-form-field appearance="outline" >
+            <mat-label>סיסמה</mat-label>
+            <input matInput placeholder="6 תווים" formControlName="password">
+        </mat-form-field>
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <button class="login-button" type="submit" mat-flat-button color="primary">המשך</button>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <p>כבר רשום? <a routerLink='/login'>להתחברות</a></p>
+
+        </div>
+        <div class="signinsocial" fxLayout="row" fxLayoutAlign="center center">
+            <button mat-raised-button (click)="signInWithFB()">
+                <mat-icon svgIcon="facebook"></mat-icon>
+                הרשמה עם פייסבוק</button>
+        </div>
+        <div class="signinsocial" fxLayout="row" fxLayoutAlign="center center">
+            <button mat-raised-button (click)="signInWithGoogle()">
+                <mat-icon svgIcon="google"></mat-icon>
+                הרשמה עם גוגל</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,96 @@
+
+<div *ngIf="loggedIn === false">
+<button routerLink='/login' mat-fab class="userIcon" mat-button matTooltip="אזור אישי">
+  <mat-icon>person_outline</mat-icon>
+</button>
+</div>
+<div *ngIf="loggedIn === true">
+  <button routerLink='/personal-area' mat-fab class="userIcon" mat-button matTooltip="אזור אישי">
+    <mat-icon>person_outline</mat-icon>
+  </button>
+</div>
+
+<div routerLink='/about' class="aboutUs" style="float: left; left: 0;">
+  קצת עלינו :)
+</div>
+
+<div routerLink='/home'  class="aboutUs" style="float: right; right: 0;">
+  ShareALL
+</div>
+
+<!--<mat-toolbar name="main-bar" style="background-image: linear-gradient(to bottom right, #ffe2d2, #ffc2bb)">-->
+<!--  <mat-toolbar-row>-->
+<!--    <button mat-icon-button>-->
+<!--      <mat-icon (click)="sidenav.toggle()">menu</mat-icon>-->
+<!--    </button>-->
+<!--    <h1>shareAll</h1>-->
+<!--    <span class="menu-spacer"></span>-->
+<!--    <div fxFlex fxLayout fxLayoutAlign="flex-end" fxLayout fxLayoutGap="60px">-->
+
+<!--      <button routerLink='/login' mat-icon-button class="userIcon" mat-button>-->
+<!--        <mat-icon>person_outline</mat-icon>-->
+<!--      </button>-->
+<!--    </div>-->
+<!--  </mat-toolbar-row>-->
+
+<!--</mat-toolbar>-->
+
+<!--<mat-sidenav-container>-->
+<!--  <mat-sidenav #sidenav mode="over">-->
+
+<!--    <mat-nav-list>-->
+
+<!--      <a matSubheader [routerLink]="'/home'" (click)="sidenav.close()"><mat-icon matListIcon>home</mat-icon> עמוד הבית </a>-->
+<!--      <mat-divider></mat-divider>-->
+
+<!--      <h2 matSubheader> מוצרים </h2>-->
+
+<!--      <a *ngFor="let item of productsereaRoutes"-->
+<!--        mat-list-item-->
+<!--        (click)="sidenav.close()"-->
+<!--        [routerLink]="[item.route]"-->
+<!--        [queryParams]="{type: item.type}"-->
+<!--        routerLinkActive="list-item-active">-->
+<!--        <mat-icon matListIcon> {{ item.icon }} </mat-icon>-->
+<!--        {{item.title}}-->
+<!--      </a>-->
+
+<!--      <mat-divider></mat-divider>-->
+
+<!--      <h2 matSubheader>  אזור אישי </h2>-->
+
+<!--      <a *ngFor="let item of myereaRoutes"-->
+<!--        mat-list-item-->
+<!--        (click)="sidenav.close()"-->
+<!--        [routerLink]="[item.route]"-->
+<!--        routerLinkActive="list-item-active">-->
+<!--        <mat-icon matListIcon> {{ item.icon }} </mat-icon>-->
+<!--        {{item.title}}-->
+<!--      </a>-->
+
+<!--      <mat-divider></mat-divider>-->
+
+<!--      <h2 matSubheader> על המערכת </h2>-->
+
+<!--      <a *ngFor="let item of myWorkRoutes"-->
+<!--        mat-list-item-->
+<!--        (click)="sidenav.close()"-->
+<!--        [routerLink]="[item.route]"-->
+<!--        routerLinkActive="list-item-active">-->
+<!--        <mat-icon matListIcon> {{ item.icon }} </mat-icon>-->
+<!--        {{item.title}}-->
+<!--      </a>-->
+
+<!--      <mat-divider></mat-divider>-->
+
+<!--    </mat-nav-list>-->
+<!--  </mat-sidenav>-->
+<!--  <mat-sidenav-content>-->
+<!--    <div style="height: 88vh;">-->
+
+<!--      <router-outlet></router-outlet>-->
+<!--    </div>-->
+<!--  </mat-sidenav-content>-->
+<!--</mat-sidenav-container>-->
+
+<router-outlet></router-outlet>

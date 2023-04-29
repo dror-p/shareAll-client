@@ -1,0 +1,172 @@
+<h1 fxLayout="column" style="padding-top: 50px;">עמוד הצגת מוצרים ל{{title}}</h1>
+
+<div fxLayout="row" fxLayoutAlign="space-between center" style="width: 70%">
+
+  סנן לפי:
+  <div fxLayout="column">
+    <mat-form-field>
+      <mat-label>מלל חופשי</mat-label>
+      <input matInput placeholder="למשל: מעשנה" (keyup)="onSearchFilterChanged()" [(ngModel)]="description">
+    </mat-form-field>
+  </div>
+
+  <div fxLayout="column">
+    <mat-form-field>
+      <mat-label>קטגוריה</mat-label>
+      <mat-select appearance="outline" [(ngModel)]="category" (selectionChange)="onSearchFilterChanged()" multiple>
+        <mat-option value="רכבים">רכבים</mat-option>
+        <mat-option value="מוצרי בישול ואפייה">מוצרי בישול ואפייה</mat-option>
+        <mat-option value="מחנאות">מחנאות</mat-option>
+        <mat-option value="כלי עבודה">כלי עבודה</mat-option>
+        <mat-option value="גינון">גינון</mat-option>
+        <mat-option value="ספורט">ספורט</mat-option>
+        <mat-option value="ביגוד ואופנה">ביגוד ואופנה</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div fxLayout="column">
+    <mat-form-field>
+      <mat-label>אזור</mat-label>
+      <mat-select appearance="outline" [(ngModel)]="area" (selectionChange)="onSearchFilterChanged()" multiple>
+        <mat-option value="צפון">צפון</mat-option>
+        <mat-option value="דרום">דרום</mat-option>
+        <mat-option value="שרון">שרון</mat-option>
+        <mat-option value="מרכז">מרכז</mat-option>
+        <mat-option value="ירושלים">ירושלים</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div fxLayout="column">
+    <mat-form-field>
+      <mat-label>עיר</mat-label>
+        <mat-select appearance="outline" [(ngModel)]="city" (selectionChange)="onSearchFilterChanged()" multiple>
+          <mat-option value="תל אביב">תל אביב</mat-option>
+          <mat-option value="נתניב">נתניה</mat-option>
+          <mat-option value="ירושלים">ירושלים</mat-option>
+          <mat-option value="חיפה">חיפה</mat-option>
+          <mat-option value="דימונה">דימונה</mat-option>
+          <mat-option value="פתח תקווה">פתח תקווה</mat-option>
+          <mat-option value="קרית אונו">קרית אונו</mat-option>
+          <mat-option value="שוהם">שוהם</mat-option>
+          <mat-option value="גני תקוה">גני תקוה</mat-option>
+          <mat-option value="אילת">אילת</mat-option>
+          <mat-option value="באר שבע">באר שבע</mat-option>
+        </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div fxLayout="column">
+  <mat-form-field>
+    <mat-label>תיוגים</mat-label>
+    <mat-chip-list #chipList aria-label="Fruit selection">
+      <mat-chip
+        *ngFor="let tag of tags"
+        (removed)="remove(tag)">
+        {{tag}}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+      <input
+        placeholder="הוספת תיוג..."
+        #tagInput
+        [matChipInputFor]="chipList"
+        (matChipInputTokenEnd)="addTag($event)">
+    </mat-chip-list>
+  </mat-form-field>
+</div>
+
+</div>
+<!--#3cddec-->
+
+  <div *ngIf="!filteredProducts" fxLayout="row" style="margin: 10%">
+    <mat-spinner ></mat-spinner>
+    <h2 style="margin-right: 20px">ממש עוד רגע יוצגו מוצרים :)</h2>
+  </div>
+
+  <div class="content">
+    <mat-card class="product-card" *ngFor="let product of filteredProducts">
+      <mat-icon style="float: left; cursor: pointer" (click)="openDialog(product)">fullscreen</mat-icon>
+      <mat-card-header>
+        <mat-card-title style="text-align: center">{{product.name}}</mat-card-title>
+      </mat-card-header>
+      <div style="text-align: center; padding-top: 10px">
+        <img mat-card-image src={{product.photos}} class="product-image">
+      </div>
+      <mat-card-content dir="rtl">
+        <p>
+          קטגוריה: {{product.category}}
+        </p>
+        <p>עיר: {{product.city}}</p>
+        <p>מרחק: {{product.distance | number}} ק״מ </p>
+        <p>
+          {{product.description}}
+        </p>
+        <p *ngIf="product.price_from && product.price_to">
+          {{product.price_from}} | {{product.price_to}}
+        </p>
+
+
+      </mat-card-content>
+
+      <mat-card-actions style="height: 20%">
+
+        <button style="position: absolute; bottom: 10px; left: 10px" mat-mini-fab class="userIcon" mat-button matTooltip="בקש להשכיר מוצר זה" *ngIf="product.productType=='rent'" (click)="openRentRequestDialog(product)">
+          <mat-icon>event</mat-icon>
+        </button>
+        <button *ngIf="product.productType=='buyGlobal'" style="position: absolute; bottom: 10px; left: 10px" mat-mini-fab class="userIcon" matTooltip="בקש להצטרף כשותף לקניה" (click)="joinGroup(product)">
+          <mat-icon>group_add</mat-icon>
+       </button>
+
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <div *ngIf="recommendedProduct" >
+    <h1>לפי המוצרים שצפית אולי תאהב גם</h1>
+    <mat-card class="product-card" style="width:150px;margin: 0 10px 0 10px;">
+      <mat-icon style="float: left; cursor: pointer" (click)="openDialog(recommendedProduct)">fullscreen</mat-icon>
+      <mat-card-header>
+        <mat-card-title style="text-align: center">{{recommendedProduct.name}}</mat-card-title>
+      </mat-card-header>
+      <div style="text-align: center; padding-top: 10px">
+        <img mat-card-image src={{recommendedProduct.photos}} class="product-image">
+      </div>
+      <mat-card-content dir="rtl">
+        <p>
+          קטגוריה: {{recommendedProduct.category}}
+        </p>
+        <p>עיר: {{recommendedProduct.city}}</p>
+        <p>מרחק: {{recommendedProduct.distance | number}} ק״מ </p>
+        <p>
+          {{recommendedProduct.description}}
+        </p>
+        <p *ngIf="recommendedProduct.price_from && recommendedProduct.price_to">
+          {{recommendedProduct.price_from}} | {{recommendedProduct.price_to}}
+        </p>
+
+
+      </mat-card-content>
+
+      <mat-card-actions style="height: 20%">
+
+        <button style="position: absolute; bottom: 10px; left: 10px" mat-mini-fab class="userIcon" mat-button matTooltip="בקש להשכיר מוצר זה"
+        *ngIf="recommendedProduct.productType=='rent'" (click)="openRentRequestDialog(recommendedProduct)">
+          <mat-icon>event</mat-icon>
+        </button>
+        <button *ngIf="recommendedProduct.productType=='buyGlobal'"
+        style="position: absolute; bottom: 10px; left: 10px" mat-mini-fab class="userIcon"
+         matTooltip="בקש להצטרף כשותף לקניה" (click)="joinGroup(recommendedProduct)">
+          <mat-icon>group_add</mat-icon>
+       </button>
+
+      </mat-card-actions>
+    </mat-card>
+  </div>
+<div class="add-button">
+  <a [routerLink]="['/new-product']" [queryParams]="{type: type}">
+    <button mat-fab class="inner-button" matTooltip="פרסם מוצר">
+      <mat-icon>add</mat-icon>
+    </button>
+  </a>
+</div>

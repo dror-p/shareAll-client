@@ -1,0 +1,99 @@
+<div class="presonalarea-wrapper">
+    <h1>אזור אישי</h1>
+    <mat-tab-group animationDuration="0ms" style="width: 90%">
+        <mat-tab label="פרטים אישיים">
+            <div class="filed">
+            <mat-form-field appearance="outline">
+                <mat-label>אימייל</mat-label>
+                <input matInput [(ngModel)]="user.email">
+              </mat-form-field>
+              <mat-form-field appearance="outline" style="margin-right: 10px">
+                <mat-label>שם פרטי</mat-label>
+                <input matInput  [(ngModel)]="user.name">
+              </mat-form-field>
+              <mat-form-field appearance="outline" style="margin-right: 10px">
+                <mat-label>שם משפחה</mat-label>
+                <input matInput  [(ngModel)]="user.familyName">
+              </mat-form-field>
+            </div>
+              <mat-form-field appearance="outline">
+                <mat-label>עיר</mat-label>
+                <input matInput  [(ngModel)]="user.city">
+              </mat-form-field>
+              <mat-form-field appearance="outline" style="margin-right: 10px">
+                <mat-label>כתובת</mat-label>
+                <input matInput  [(ngModel)]="user.address">
+              </mat-form-field>
+          <br>
+          <button mat-raised-button class="inner-button" (click)="savePersonalInfo()">שמירת שינויים</button>
+
+        </mat-tab>
+        <mat-tab label="מוצרים">
+          <h3>מוצרים להשכרה:</h3>
+          <div class="content" *ngIf="userProductsForRent && userProductsForRent.length > 0">
+            <mat-card class="product-card" *ngFor="let product of userProductsForRent">
+              <mat-card-header>
+                <mat-card-title style="text-align: center">{{product.name}}</mat-card-title>
+              </mat-card-header>
+              <div style="text-align: center; padding-top: 10px">
+                <img mat-card-image src={{product.photos}} class="product-image">
+              </div>
+              <mat-card-content dir="rtl">
+                <p>עיר: {{product.city}}</p>
+                <p>
+                  {{product.description}}
+                </p>
+                <p *ngIf="product.price_from && product.price_to">
+                  {{product.price_from}} | {{product.price_to}}
+                </p>
+
+              </mat-card-content>
+            </mat-card>
+          </div>
+          <h5 *ngIf="!userProductsForRent || userProductsForRent.length == 0">לא קיימים מוצרים להשכרה</h5>
+          <h3>מוצרים לקנייה שיתופית:</h3>
+          <div class="content" *ngIf="userProductsForGlobalBuy && userProductsForGlobalBuy.length > 0">
+            <mat-card class="product-card" *ngFor="let product of userProductsForGlobalBuy">
+              <mat-card-header>
+                <mat-card-title style="text-align: center">{{product.name}}</mat-card-title>
+              </mat-card-header>
+              <div style="text-align: center; padding-top: 10px">
+                <img mat-card-image src={{product.photos}} class="product-image">
+              </div>
+              <mat-card-content dir="rtl">
+                <p>עיר: {{product.city}}</p>
+                <p>
+                  {{product.description}}
+                </p>
+                <p *ngIf="product.price_from && product.price_to">
+                  {{product.price_from}} | {{product.price_to}}
+                </p>
+
+              </mat-card-content>
+            </mat-card>
+          </div>
+          <h5 *ngIf="!userProductsForGlobalBuy || userProductsForGlobalBuy.length == 0">
+            לא קיימים מוצרים לקנייה שיתופית
+          </h5>
+        </mat-tab>
+        <mat-tab label="בקשות לאישור">
+          <h4>בקשות להשכרת המוצרים שלך</h4>
+<!--          <div *ngFor="let request of rentRequests" style="margin-top: 10px">-->
+<!--            &lt;!&ndash;TODO change to name&ndash;&gt;-->
+<!--            {{request.to}} - {{request.from}}-->
+<!--            <button mat-raised-button class="inner-button" style="margin-right: 5px">אשר השכרה</button>-->
+<!--          </div>-->
+
+
+          <div>
+            <h4>בקשות להצטרפות כשותף</h4>
+            <div *ngFor="let request of globalBuyRequests" style="margin-top: 10px">
+              <!--TODO change to name-->
+              {{request.user.email}} מבקש/ת להצטרף כשותפ/ה למוצר: {{request.product.name}}
+              <button mat-raised-button class="inner-button" style="margin-right: 5px" (click)="addPartner(request.user._id, request.product._id)">צרף כשותף</button>
+            </div>
+          </div>
+
+        </mat-tab>
+      </mat-tab-group>
+</div>

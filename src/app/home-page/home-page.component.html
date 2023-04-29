@@ -1,0 +1,25 @@
+<div class="silder">
+    <div class="silder-content">
+      <!-- <h1 style="color: #FFFFFF">ShareALL</h1>
+      <h1 style="color: #FFFFFF">הפלטפורמה שלך לחיסכון</h1> -->
+    </div>
+</div>
+
+<div class="features">
+    <div class="row">
+      <div class="column" [routerLink]="'/products-view'" [queryParams]="{type: eProductType.rent}">
+        <mat-icon aria-hidden="false" aria-label="Example home icon">shopping_cart  </mat-icon>
+        <h3>אני מתעניין במוצרים להשכרה</h3>
+        <p>יש לך מוצר שאתה מעוניין להשכיר לאחרים ולהרוויח עליו כסף? חייב אוטו אבל רק ליום אחד של טיול?
+        </p>
+      </div>
+      <div class="column" [routerLink]="'/products-view'" [queryParams]="{type: eProductType.collaborativePurchase}">
+        <mat-icon aria-hidden="false" aria-label="Example home icon">groups</mat-icon>
+        <h3>אני מתעניין במוצרים לקנייה שיתופית
+        </h3>
+        <p>מעוניין לרכוש מוצר אבל לא יכול לממן את כולו? מעוניין לרכוש מוצר אבל יודע שלא תנצל אותו כל הזמן?
+        </p>
+      </div>
+    </div>
+  </div>
+

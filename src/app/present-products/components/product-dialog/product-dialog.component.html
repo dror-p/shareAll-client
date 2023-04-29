@@ -1,0 +1,103 @@
+<div class="Rectangle-Copy">
+  <div fxLayout="row">
+    <h1 fxLayout="column" mat-dialog-title class="name">{{currProduct.name}}</h1>
+      <mat-label fxLayout="column" class="name" *ngIf="currProduct.category">קטגוריה: {{currProduct.category}}</mat-label>
+  </div>
+</div>
+<div fxLayout="row" fxLayoutAlign="space-between start" class="popup">
+
+  <div fxLayout="column" fxLayoutAlign="end start" style="margin: 10px;">
+
+    <div mat-dialog-content *ngIf="currProduct.description">
+        <mat-label>{{currProduct.description}}</mat-label>
+    </div>
+
+
+    <div mat-dialog-content *ngIf="currProduct.location">
+      <mat-label>{{currProduct.location}}</mat-label>
+    </div>
+    <div mat-dialog-content *ngIf="currProduct.price_from && currProduct.price_to">
+      <mat-label>טווח מחירים: </mat-label>
+      <mat-label>{{currProduct.price_from}} - {{currProduct.price_to}}</mat-label>
+    </div>
+
+    <div mat-dialog-content *ngIf="currProduct.max_number_of_buyers">
+      <mat-label>מספר מקסימלי של קונים: </mat-label>
+      <mat-label>{{currProduct.max_number_of_buyers}}</mat-label>
+    </div>
+
+    <div mat-dialog-content *ngIf="currProduct.dailyPayment">
+      <mat-label>{{currProduct.dailyPayment}} ליום </mat-label>
+    </div>
+
+    <div mat-dialog-content *ngIf="currProduct.hourlyPayment">
+      <mat-label>{{currProduct.hourlyPayment}} לשעה </mat-label>
+    </div>
+
+
+    <div mat-dialog-content style="margin-top: 100px">
+      <mat-label>דירוג נוכחי של המשתמש: </mat-label>
+      <mat-label>{{currUserRate}} </mat-label>
+      <mat-card>
+        <div class="star-rating-container star-rating-animation" fxLayout="row" fxLayoutAlign="start center" >
+
+          <div *ngFor="let star of stars" [ngClass]="[star.class]" (click)="selectStar(star.id)">
+            <mat-icon>{{star.icon}}</mat-icon>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+
+    <div mat-dialog-content  *ngIf="currProduct.tags && currProduct.tags.length > 0" style="overflow: hidden; margin-top: 50px">
+<!--      <mat-label>תיוגים: </mat-label>-->
+      <mat-label>
+        <mat-chip-list #chipList>
+          <mat-chip
+            *ngFor="let tag of currProduct.tags">
+            {{tag}}
+          </mat-chip>
+        </mat-chip-list>
+      </mat-label>
+    </div>
+
+  </div>
+
+
+  <div  fxLayout="column">
+    <!-- Slideshow container -->
+    <div class="slideshow-container" *ngIf="currProduct.photos && currProduct.photos.length > 0">
+
+      <!-- Full-width images with number and caption text -->
+      <div class="mySlides fade" *ngFor="let photo of currProduct.photos">
+        <div class="numbertext"> {{currProduct.photos.length}} / {{currProduct.photos.indexOf(photo) + 1}}</div>
+        <!--      <div class="text" *ngIf="photo">Caption Text</div>-->
+        <img src="{{photo}}" style="width:100%; height: 100%">
+      </div>
+      <!-- Next and previous buttons -->
+      <a class="next" *ngIf="showNext" (click)="plusSlides(1)">&#10095;</a>
+      <a class="prev" *ngIf="showPrev" (click)="plusSlides(-1)">&#10094;</a>
+
+      <!-- The dots/circles -->
+      <div style="text-align:center; position: relative; top: -20px">
+        <span class="dot" *ngFor="let photo of currProduct.photos" (click)="currentSlide(currProduct.photos.indexOf(photo))"></span>
+      </div>
+
+
+
+    </div>
+
+    <div *ngIf="!currProduct.photos || currProduct.photos.length == 0" class="slideshow-container" style="background-color: #f9f9f9">
+      <div style="display: flex; justify-content: center;">
+        <mat-icon style="color: #dfe4ea; font-size: 250px; position: fixed; margin-left: -220px; margin-top: 30px"> insert_photo </mat-icon>
+        <p style="color: #dfe4ea">לא נמצאו תמונות</p>
+      </div>
+    </div>
+  </div>
+
+<!--  <div mat-dialog-actions fxLayout="column">-->
+<!--    <button mat-button (click)="onNoClick()"><mat-icon>close</mat-icon></button>-->
+<!--  </div>-->
+
+
+
+</div>
